@@ -1,16 +1,16 @@
-import { useState } from 'react';
+import { useState } from "react";
 
 const starContainerStyles = {
-  display: 'flex',
-  gap: '16px',
-  alignItems: 'center',
+  display: "flex",
+  gap: "10px",
+  alignItems: "center",
 };
 
 const RatingStars = function ({
   maxRate = 5,
-  color = '#fcc419',
+  color = "#fcc419",
   size = 48,
-  className = '',
+  className = "",
   messages = [],
   defaultRating = 0,
   onSetRating, // NOTE: DID NOT SPECIFY IN INDEX.JS
@@ -30,7 +30,7 @@ const RatingStars = function ({
   };
   return (
     <div style={starContainerStyles} className={className}>
-      <div style={{ display: 'flex' }}>
+      <div style={{ display: "flex" }}>
         {Array.from({ length: maxRate }, (_, i) => {
           return (
             <Star
@@ -50,7 +50,7 @@ const RatingStars = function ({
       <RatingNumber color={color} size={size}>
         {messages.length === maxRate
           ? messages[tempRating ? tempRating - 1 : ratingNumber - 1]
-          : tempRating || ratingNumber || ''}
+          : tempRating || ratingNumber || ""}
       </RatingNumber>
     </div>
   );
@@ -66,7 +66,7 @@ const Star = function ({
   const starStyle = {
     width: `${size}px`,
     height: `${size}px`,
-    cursor: 'pointer',
+    cursor: "pointer",
   };
 
   return (
