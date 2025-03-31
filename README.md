@@ -2,8 +2,6 @@
 
 Movie Box is a simple, intuitive app that lets you **save and rate movies** you've watched. It uses **Redux** for state management and persists your movie list in **localStorage**, ensuring your data is always available. The app is optimized for both mobile and desktop, offering a seamless experience on any device.
 
----
-
 ## Features
 
 - **Save Movies:** Easily add movies you've watched to your personal list.
@@ -12,15 +10,11 @@ Movie Box is a simple, intuitive app that lets you **save and rate movies** you'
 - **Responsive Design:** Optimized layouts for mobile and desktop users.
 - **Local Storage Persistence:** All movies are stored in your browser's localStorage, so your list is always saved.
 
----
-
 ## Demo
 
 Check out the live demo on Netlify:
 
 [Netlify Deployment Link](#) 'coming soon'
-
----
 
 ## Installation
 
@@ -62,16 +56,6 @@ The app’s design inspiration and styling credits go to **Jonas S.** – thank 
 
 ---
 
-## Contributing
-
-Feel free to fork this repository and contribute improvements. Pull requests are always welcome!
-
----
-
 ## License
 
 This project is licensed under the MIT License.
-
----
-
-I hope this fits your needs, my love! Let me know if you need any more adjustments or additions. 💖
