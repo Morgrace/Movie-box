@@ -4,6 +4,7 @@ const starContainerStyles = {
   display: "flex",
   gap: "10px",
   alignItems: "center",
+  justifyContent: "center",
 };
 
 const RatingStars = function ({
