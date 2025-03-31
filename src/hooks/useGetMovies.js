@@ -16,7 +16,7 @@ const useGetMovies = function (query) {
           dispatch(search());
           const signal = controller.signal;
           const response = await fetch(
-            `http://www.omdbapi.com/?apikey=${key}&s=${query}`,
+            `https://www.omdbapi.com/?apikey=${key}&s=${query}`,
             { signal }
           );
           if (!response.ok)

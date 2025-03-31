@@ -14,7 +14,7 @@ function useGetMovieSynopsis() {
       if (!selectedMovieId) return;
       dispatch(searchSynopsis());
       const response = await fetch(
-        `http://www.omdbapi.com/?apikey=${key}&i=${selectedMovieId}`
+        `https://www.omdbapi.com/?apikey=${key}&i=${selectedMovieId}`
       );
 
       if (!response.ok)
