@@ -1,10 +1,10 @@
 import { useState, useRef } from "react";
-import { useGetMovies } from "./useGetMovies";
-import { useLocalStorage } from "./useLocalStorage";
-import { useKeyDown } from "./useKeyDown";
+import { useGetMovies } from "./hooks/useGetMovies";
+import { useLocalStorage } from "./hooks/useLocalStorage";
+import { useKeyDown } from "./hooks/useKeyDown";
 import Nav from "./components/Nav";
-import Main from "./pages/Main";
-import MovieList from "./pages/MovieList";
+import Main from "./components/Main";
+import MovieList from "./components/MovieList";
 import Movies from "./components/Movies";
 import Loading from "./components/Loading";
 import ErrorMessage from "./components/ErrorMessage";

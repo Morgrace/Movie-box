@@ -1,19 +1,19 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { abort, loaded, rejected, search } from "../reducers/moviesSlice";
+
 const useGetMovies = function (query) {
   const key = "f84fc31d";
-  const [err, setErr] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [movies, setMovies] = useState([]);
+  // const key = "f84fc31d";
 
+  const dispatch = useDispatch();
   useEffect(
     function () {
       const controller = new AbortController();
       (async function () {
         try {
-          setErr("");
-          setIsLoading(true);
-          setMovies([]);
           if (query.length < 4) return;
+          dispatch(search());
           const signal = controller.signal;
           const response = await fetch(
             `http://www.omdbapi.com/?apikey=${key}&s=${query}`,
@@ -26,22 +26,24 @@ const useGetMovies = function (query) {
           const data = await response.json();
           if (!data.Search)
             throw new Error("No Movies Found. Try a different Search");
-          setMovies(data.Search);
+          dispatch(loaded(data.Search));
         } catch (error) {
-          if (error.name === "TypeError") return setErr("🛑 Network Error: ");
+          if (error.name === "TypeError")
+            return dispatch(
+              rejected("🛑 Network Error: Check your internet connection")
+            );
           if (error.name !== "AbortError") {
-            setErr(error.message);
+            dispatch(rejected(error.message));
           }
         } finally {
-          setIsLoading(false);
+          dispatch(abort());
         }
       })();
       return function () {
         controller.abort();
       };
     },
-    [query]
+    [query, dispatch]
   );
-  return { err, isLoading, movies };
 };
 export { useGetMovies };

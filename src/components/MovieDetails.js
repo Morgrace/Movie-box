@@ -1,28 +1,15 @@
 import { useState, useRef, useEffect } from "react";
-import { useKeyDown } from "../useKeyDown";
 import Loading from "./Loading";
 import ErrorMessage from "./ErrorMessage";
-import StarRating from "../RatingStars";
-const key = "2cbc474e";
-const MovieDetails = function ({
-  selectedMovieId,
-  onCloseMovie,
-  setWatched,
-  watched,
-}) {
-  const [err, setErr] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [selectedMovie, setSelectedMovie] = useState("");
-  const [userRating, setUserRating] = useState("");
+import StarRating from "./RatingStars";
+import { useDispatch, useSelector } from "react-redux";
 
+import { movieAdded, movieUnselect } from "../reducers/watchedMoviesSlice";
+
+const MovieDetails = function () {
+  const [userRating, setUserRating] = useState("");
   const count = useRef(0);
-  useEffect(
-    function () {
-      if (!userRating) return;
-      count.current++;
-    },
-    [userRating]
-  );
+
   const {
     Genre: genre,
     Poster: poster,
@@ -33,56 +20,53 @@ const MovieDetails = function ({
     Director: director,
     Actors: actors,
     Plot: plot,
-  } = selectedMovie;
-  const haveWatched = watched.find((movie) => movie.imdbID === selectedMovieId);
-  // for changing the docuement title according to selected movie
+    imdbID,
+  } = useSelector((store) => store.watched.movieSynopsis);
+
+  const listItemToBeAdded = {
+    poster,
+    title,
+    imdbRating,
+    userRating,
+    runtime: Number.parseFloat(runtime),
+    imdbID,
+  };
+  const { isLoading, error, selectedMovie, watchedMovies, movieSynopsis } =
+    useSelector((store) => store.watched);
+  const dispatch = useDispatch();
+  const haveWatched = watchedMovies.find(
+    (movie) => movie.imdbID === selectedMovie
+  );
+  //for changing the docuement title according to selected movie
   useEffect(
     function () {
-      if (!selectedMovie) return;
-      document.title = `Movie | ${selectedMovie.Title}`;
+      if (!Object.keys(movieSynopsis).length) return;
+      document.title = `Movie | ${movieSynopsis.Title}`;
       return function () {
         document.title = "usePopcorn";
       };
     },
-    [selectedMovie]
+    [movieSynopsis]
   );
-  useKeyDown("Escape", onCloseMovie);
-
-  useEffect(() => {
-    (async () => {
-      try {
-        setErr("");
-        setIsLoading(true);
-        const response = await fetch(
-          `http://www.omdbapi.com/?apikey=${key}&i=${selectedMovieId}`
-        );
-        if (!response.ok)
-          throw new Error(
-            `Server Error: ${response.status} ${response.statusText}`
-          );
-        const data = await response.json();
-
-        if (!data)
-          throw new Error(
-            "❗ Error Selecting Movie. Try again or Select another movie"
-          );
-        setSelectedMovie(data);
-      } catch (error) {
-        if (error.name === "TypeError") return setErr("🛑 Network Error: ");
-        setErr(error.message);
-      } finally {
-        setIsLoading(false);
-      }
-    })();
-  }, [selectedMovieId]);
+  // useKeyDown("Escape", onCloseMovie);
+  useEffect(
+    function () {
+      if (!userRating) return;
+      count.current++;
+    },
+    [userRating]
+  );
   return (
     <div className="details">
       {isLoading && <Loading />}
-      {err && <ErrorMessage>{err}</ErrorMessage>}
-      {selectedMovie && !err && !isLoading && (
+      {error && <ErrorMessage>{error}</ErrorMessage>}
+      {!error && !isLoading && (
         <>
           <header>
-            <button className="btn-back" onClick={onCloseMovie}>
+            <button
+              onClick={() => dispatch(movieUnselect())}
+              className="btn-back"
+            >
               &larr;
             </button>
             <img src={poster} alt={`Poster of ${title} movie`} />
@@ -111,19 +95,8 @@ const MovieDetails = function ({
                   />
                   {userRating > 0 && (
                     <button
+                      onClick={() => dispatch(movieAdded(listItemToBeAdded))}
                       className="btn-add"
-                      onClick={() => {
-                        setWatched((movie) => [
-                          ...movie,
-                          {
-                            ...selectedMovie,
-                            userRating,
-                            Runtime: +selectedMovie.Runtime.split(" ").at(0),
-                            count: count.current,
-                          },
-                        ]);
-                        onCloseMovie();
-                      }}
                     >
                       + Add to list
                     </button>
