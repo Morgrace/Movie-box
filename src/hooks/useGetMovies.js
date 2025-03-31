@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { abort, loaded, rejected, search } from "../reducers/moviesSlice";
+import { resetSelect } from "../reducers/watchedMoviesSlice";
 
 const useGetMovies = function (query) {
   const key = "f84fc31d";
@@ -13,6 +14,7 @@ const useGetMovies = function (query) {
       (async function () {
         try {
           if (query.length < 4) return;
+          dispatch(resetSelect());
           dispatch(search());
           const signal = controller.signal;
           const response = await fetch(

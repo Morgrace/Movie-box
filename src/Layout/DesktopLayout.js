@@ -2,7 +2,7 @@ import MovieSynopsis from "../pages/MovieSynopsis";
 import SearchedMoviesResult from "../pages/SearchedMoviesResult";
 import WatchedMoviesList from "../pages/WatchedMoviesList";
 
-function DesktopLayout(selectedMovie) {
+function DesktopLayout({ selectedMovie }) {
   return (
     <>
       <SearchedMoviesResult />

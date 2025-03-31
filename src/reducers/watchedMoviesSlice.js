@@ -14,6 +14,9 @@ const watchedMoviesSlice = createSlice({
   name: "watched",
   initialState,
   reducers: {
+    resetSelect(state) {
+      state.selectedMovie = [];
+    },
     searchSynopsis(state) {
       state.error = null;
       state.isLoading = true;
@@ -78,5 +81,6 @@ export const {
   movieAdded,
   movieDeleted,
   movieUnselect,
+  resetSelect,
 } = watchedMoviesSlice.actions;
 export default watchedMoviesSlice.reducer;
